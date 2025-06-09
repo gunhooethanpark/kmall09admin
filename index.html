@@ -2,56 +2,93 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>스프레드시트 대시보드</title>
+  <title>KONNECT 내부 스프레드시트</title>
   <style>
-    body, html {
+    * {
       margin: 0;
       padding: 0;
-      height: 100%;
-      font-family: sans-serif;
+      box-sizing: border-box;
     }
 
-    .tabs {
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
-      background: #333;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #2c3e50;
+      color: white;
+      padding-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .tab {
+      width: 100%;
       padding: 14px 20px;
-      color: white;
       cursor: pointer;
-      border-right: 1px solid #555;
+      border-bottom: 1px solid #34495e;
+      font-weight: 500;
     }
 
     .tab.active {
-      background: #555;
+      background-color: #34495e;
       font-weight: bold;
     }
 
+    .content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .description {
+      padding: 12px 20px;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+      color: #333;
+    }
+
     iframe {
-      width: 100vw;
-      height: calc(100vh - 50px);
+      flex-grow: 1;
+      width: 100%;
       border: none;
     }
   </style>
 </head>
 <body>
 
-  <div class="tabs">
-    <div class="tab active" onclick="showSheet(0)">📊 1번 시트</div>
-    <div class="tab" onclick="showSheet(1)">📋 2번 시트</div>
+  <div class="sidebar">
+    <div class="tab active" onclick="showSheet(0)">📊 정산 시트</div>
+    <div class="tab" onclick="showSheet(1)">📋 발주 시트</div>
+    <div class="tab" onclick="showSheet(2)">📦 재고 시트</div>
   </div>
 
-  <iframe id="sheetFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true"></iframe>
+  <div class="content">
+    <div class="description" id="sheetDesc">🔎 커넥트 정산 요약 시트입니다. 월별 판매, 수금, 누적 미수 등을 확인할 수 있습니다.</div>
+    <iframe id="sheetFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true"></iframe>
+  </div>
 
   <script>
     const sheetUrls = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQDND3lW_Tw24t3cYzyRltOc7VT_T3TBGMGl1eFqFsyeVR7zUEt1P971p0bZcQ53Xb_yV7dSvWMKLGG/pubhtml?gid=0&single=true"
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQDND3lW_Tw24t3cYzyRltOc7VT_T3TBGMGl1eFqFsyeVR7zUEt1P971p0bZcQ53Xb_yV7dSvWMKLGG/pubhtml?gid=0&single=true",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAMPLE_REPLACEME123456789/pubhtml?gid=0&single=true"
+    ];
+
+    const sheetDescriptions = [
+      "🔎 커넥트 정산 요약 시트입니다. 월별 판매, 수금, 누적 미수 등을 확인할 수 있습니다.",
+      "📝 월별 발주 현황입니다. 발주 브랜드, 금액, 신규/추가 구분이 포함됩니다.",
+      "📦 실시간 재고 현황입니다. 입출고 내역, 현재고 수량, 브랜드별 상품 리스트를 확인할 수 있습니다."
     ];
 
     function showSheet(index) {
       document.getElementById('sheetFrame').src = sheetUrls[index];
+      document.getElementById('sheetDesc').innerText = sheetDescriptions[index];
       document.querySelectorAll('.tab').forEach((tab, i) => {
         tab.classList.toggle('active', i === index);
       });
