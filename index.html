@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>비밀번호 보호 페이지</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 100px; }
+    input[type=password] { padding: 8px; }
+    iframe { width: 90%; height: 800px; border: none; margin-top: 20px; display: none; }
+  </style>
+</head>
+<body>
+  <h2>📋 내부 공유용 스프레드시트</h2>
+  <p>비밀번호를 입력하세요:</p>
+  <input type="password" id="pw" placeholder="비밀번호 입력">
+  <button onclick="checkPW()">확인</button>
+
+  <iframe id="sheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true"></iframe>
+
+  <script>
+    function checkPW() {
+      const pw = document.getElementById('pw').value;
+      if (pw === '1234') { // 비밀번호를 원하시는 값으로 변경
+        document.getElementById('sheet').style.display = 'block';
+      } else {
+        alert('비밀번호가 틀렸습니다.');
+      }
+    }
+  </script>
+</body>
+</html>
