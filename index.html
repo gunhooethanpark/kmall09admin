@@ -4,15 +4,25 @@
   <meta charset="UTF-8">
   <title>KONNECT 내부 스프레드시트</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body, html {
+    html, body {
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
+    }
+
+    #login {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #mainApp {
+      display: none;
+      height: 100vh;
       display: flex;
     }
 
@@ -31,7 +41,6 @@
       padding: 14px 20px;
       cursor: pointer;
       border-bottom: 1px solid #34495e;
-      font-weight: 500;
     }
 
     .tab.active {
@@ -58,19 +67,43 @@
       width: 100%;
       border: none;
     }
+
+    input[type=password] {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <div class="tab active" onclick="showSheet(0)">📊 정산 시트</div>
-    <div class="tab" onclick="showSheet(1)">📋 발주 시트</div>
-    <div class="tab" onclick="showSheet(2)">📦 재고 시트</div>
+  <!-- 🔐 로그인 화면 -->
+  <div id="login">
+    <h2>📋 내부 공유용 스프레드시트</h2>
+    <p>비밀번호를 입력하세요:</p>
+    <input type="password" id="pw" placeholder="비밀번호 입력">
+    <button onclick="checkPW()">확인</button>
   </div>
 
-  <div class="content">
-    <div class="description" id="sheetDesc">🔎 커넥트 정산 요약 시트입니다. 월별 판매, 수금, 누적 미수 등을 확인할 수 있습니다.</div>
-    <iframe id="sheetFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true"></iframe>
+  <!-- 📊 메인 화면 -->
+  <div id="mainApp">
+    <div class="sidebar">
+      <div class="tab active" onclick="showSheet(0)">📊 정산 시트</div>
+      <div class="tab" onclick="showSheet(1)">📋 발주 시트</div>
+      <div class="tab" onclick="showSheet(2)">📦 재고 시트</div>
+    </div>
+
+    <div class="content">
+      <div class="description" id="sheetDesc">🔎 커넥트 정산 요약 시트입니다. 월별 판매, 수금, 누적 미수 등을 확인할 수 있습니다.</div>
+      <iframe id="sheetFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVfRHWmKHNkQBS33WivXfPfYuXq9O6DJW1t7-ofTHq2JyVOpPbdurDtLoATjmm9wIidRS0A9_04j-l/pubhtml?gid=0&single=true"></iframe>
+    </div>
   </div>
 
   <script>
@@ -92,6 +125,16 @@
       document.querySelectorAll('.tab').forEach((tab, i) => {
         tab.classList.toggle('active', i === index);
       });
+    }
+
+    function checkPW() {
+      const pw = document.getElementById('pw').value;
+      if (pw === '1234') { // 원하는 비밀번호로 변경 가능
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'flex';
+      } else {
+        alert('비밀번호가 틀렸습니다.');
+      }
     }
   </script>
 
